@@ -1,0 +1,38 @@
+name: Auto Create PR (MCP)
+
+on:
+  push:
+    branches:
+      - "auto/*"
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request via GitHub API
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          REPO=${GITHUB_REPOSITORY}
+
+          echo "Creating PR from branch: $BRANCH_NAME"
+
+          curl -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$REPO/pulls \
+            -d "{
+              \"title\": \"Automated PR from $BRANCH_NAME\",
+              \"head\": \"$BRANCH_NAME\",
+              \"base\": \"main\",
+              \"body\": \"This PR was created automatically by MCP workflow.\"
+            }"
