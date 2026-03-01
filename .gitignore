@@ -1,0 +1,65 @@
+# =========================
+# .NET / C# Ignore Rules
+# =========================
+
+.env
+.venv/
+## Build folders
+bin/
+obj/
+out/
+
+## User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+## VS Code
+.vscode/
+
+## Visual Studio
+.vs/
+
+## Rider
+.idea/
+
+## Logs
+*.log
+
+## NuGet
+packages/
+*.nupkg
+*.snupkg
+
+## Publish folder
+publish/
+
+## Environment files
+.env
+.env.*
+
+## Secrets
+secrets.json
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Test results
+TestResults/
+
+## Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## Node (if frontend added later)
+node_modules/
+dist/
+
+## Docker
+docker-compose.override.yml
