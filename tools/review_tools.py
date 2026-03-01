@@ -274,7 +274,8 @@ def analyze_pr_files(files: List[Dict]) -> Dict[str, Any]:
     """
     all_issues = []
     file_stats = {
-        "total_files": len(files),
+        # total_files will reflect the number of source files considered for review (C# files)
+        "total_files": 0,
         "csharp_files": 0,
         "test_files": 0,
         "total_additions": 0,
@@ -308,6 +309,14 @@ def analyze_pr_files(files: List[Dict]) -> Dict[str, Any]:
                 "issues_found": len(hardcode_issues + error_issues + arch_issues)
             })
     
+    # Make total_files reflect the number of C# files analyzed (ignore non-C# files)
+    file_stats["total_files"] = file_stats["csharp_files"]
+
+    # Recompute estimated coverage relative to analyzed C# files
+    test_analysis["estimated_coverage"] = (
+        (test_analysis.get("test_file_count", 0) / max(file_stats["csharp_files"], 1)) * 100
+    )
+
     return {
         "stats": file_stats,
         "issues": all_issues,
