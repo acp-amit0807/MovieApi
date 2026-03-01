@@ -1,12 +1,14 @@
-name: Auto Create PR (MCP)
+name: MCP Auto PR + Review
 
 on:
   push:
     branches:
       - "auto/*"
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
-  create-pr:
+  mcp-flow:
     runs-on: ubuntu-latest
 
     permissions:
@@ -17,22 +19,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create Pull Request via GitHub API
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run MCP Orchestrator
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          REPO=${GITHUB_REPOSITORY}
-
-          echo "Creating PR from branch: $BRANCH_NAME"
-
-          curl -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/$REPO/pulls \
-            -d "{
-              \"title\": \"Automated PR from $BRANCH_NAME\",
-              \"head\": \"$BRANCH_NAME\",
-              \"base\": \"main\",
-              \"body\": \"This PR was created automatically by MCP workflow.\"
-            }"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python mcp_orchestrator.py

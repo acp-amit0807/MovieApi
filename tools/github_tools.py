@@ -20,3 +20,4 @@ def get_pr_files(repo: str, pr_number: int):
 def post_pr_comment(repo: str, pr_number: int, comment: str):
     url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments"
     requests.post(url, headers=_headers(), json={"body": comment})
+

@@ -2,6 +2,15 @@ Act as a Senior Software Architect reviewing this Pull Request.
 
 Perform a structured review covering:
 
+0. PR Description & Context
+   - Clear and descriptive title
+   - Comprehensive PR description
+   - Explanation of what is implemented
+   - Business value and rationale
+   - Related issues/tickets
+   - Testing instructions provided
+   - Breaking changes noted (if any)
+
 1. Design and architecture
    - Separation of concerns
    - Code modularity
@@ -39,3 +48,92 @@ For each issue:
 End with:
 - Overall quality score (1-10)
 - Merge recommendation (Approve / Changes Required)
+
+
+
+---
+
+## 📋 PR WORKFLOW ENHANCEMENT
+
+### Pre-Review Checklist
+
+**Step 0: Load PR Metadata**
+- Read `.env` file to get `DEFAULT_REVIEWER`
+- Extract `GITHUB_TOKEN` for API authentication
+- Identify PR number from git context or API query
+
+**Step 1: Comprehensive PR Description**
+
+Before posting architecture review, enhance PR description with:
+
+```
+## 📋 PR Description Template
+
+### 🎯 What is this PR About?
+- Clear problem statement
+- Solution approach
+- Business/technical value
+
+### 🔑 Key Deliverables
+- Component list
+- Features added
+- Capabilities enabled
+
+### 🔍 Scope & Metrics
+- Files changed
+- Lines added/removed
+- Breaking changes (if any)
+
+### 👤 Reviewer Assignment
+- Read DEFAULT_REVIEWER from .env
+- Assign primary reviewer
+- Tag relevant team members
+
+### ✅ Testing Instructions
+- Build commands
+- Run commands
+- Test cases to validate
+- Expected outcomes
+
+### 🚀 Next Steps
+- Future enhancements
+- Deprecations planned
+- Migration path (if applicable)
+
+### ⚠️ Known Limitations
+- Unresolved issues
+- Tech debt
+- Items for follow-up PRs
+```
+
+**Step 2: Architecture & Design Review**
+
+Following the checklist sections 1-5:
+- Design and architecture
+- Naming conventions
+- Error handling
+- Code quality
+- Testing
+
+**Step 3: File-Specific Inline Comments**
+
+For each major issue:
+- Identify file path
+- Cite exact line number
+- Explain the risk
+- Provide corrected code snippet
+
+**Step 4: Summary Assessment**
+
+Provide:
+- Overall quality score (1-10)
+- Changes Required / Approve recommendation
+- Priority areas for improvement
+- Blockers vs. nice-to-haves
+
+**Step 5: Post-Review Actions**
+
+- Tag DEFAULT_REVIEWER for final review
+- Link related issues/tickets
+- Provide merge checklist
+- Document any CI/CD requirements
