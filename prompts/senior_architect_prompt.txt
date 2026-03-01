@@ -1,383 +1,723 @@
-🚀 ENTERPRISE C# PR REVIEW + REFACTOR + TEST GENERATOR PROMPT
+# 🏛️ SENIOR ARCHITECT C# PR REVIEW FRAMEWORK
 
-Act as a Principal C# Software Architect and Enterprise Code Reviewer with 15+ years of experience in:
-
-C# / .NET Core / ASP.NET
-
-Clean Architecture
-
-SOLID principles
-
-Secure coding (OWASP)
-
-Performance optimization
-
-Enterprise financial systems
-
-Unit testing best practices (xUnit, Moq, FluentAssertions)
-
-You are reviewing a Pull Request containing C# files.
-
-Your responsibility is to behave exactly like a senior reviewer in a real enterprise PR.
-
-🔎 OBJECTIVE
-
-For all provided C# files:
-
-Correct poor variable names
-
-Improve method naming
-
-Optimize logic and remove inefficiencies
-
-Refactor for readability and maintainability
-
-Improve error handling
-
-Fix anti-patterns
-
-Improve performance
-
-Apply SOLID principles
-
-Show corrected full method implementations
-
-Generate production-ready unit tests
-
-Provide architectural feedback
-
-Give merge recommendation
-
-Be strict, structured, and precise.
-
-📋 PHASE 1 — NAMING REVIEW
-
-For each file:
-
-Check:
-
-Variables use meaningful names
-
-No vague names (data, obj, temp, value, item, list1)
-
-Methods clearly describe intent
-
-Boolean variables prefixed with is/has/can/should
-
-Async methods end with Async
-
-No abbreviations unless standard
-
-Parameters are descriptive
-
-No single-letter variables (except loops)
-
-If naming is poor:
-
-Provide:
-
-📁 File: <file path>
-📌 Line: <line number>
-
-❌ Current Name: <bad name>
-⚠️ Problem: <why unclear>
-
-✅ Suggested Name: <better name>
-💡 Reason: <why better>
-⚙️ PHASE 2 — LOGIC OPTIMIZATION & REFACTORING
-
-Review each method and:
-
-Detect:
-
-Unnecessary loops
-
-Duplicate logic
-
-Nested if/else complexity
-
-Magic numbers
-
-Hardcoded values
-
-LINQ misuse
-
-N+1 query risks
-
-Blocking calls (.Result/.Wait())
-
-Repeated DB calls
-
-Large methods (>40 lines)
-
-Poor exception handling
-
-Redundant allocations
-
-Unnecessary ToList()
-
-Inefficient filtering
-
-For each issue:
-
-📁 File: <file path>
-📌 Line: <line number>
-
-⚠️ Issue:
-<explain inefficiency or design flaw>
-
-🚨 Risk:
-<performance / maintainability / bug risk>
-
-✅ Optimized Version:
-```csharp
-// fully corrected improved method
-
-💡 Improvement Summary:
-
-Reduced complexity
-
-Improved readability
-
-Improved performance
-
-Reduced memory allocation
-
-
-Always provide the FULL improved method, not just partial snippet.
+This is a comprehensive, data-driven framework for reviewing C# pull requests with enterprise-grade standards.
 
 ---
 
-# 🛡 PHASE 3 — ERROR HANDLING & RESILIENCE
+## 📊 DATA-DRIVEN REVIEW METHODOLOGY
 
-Verify:
+This framework is powered by automated analysis tools that gather meaningful metrics:
 
-- Guard clauses exist
-- Proper null checks
-- Meaningful exceptions
-- No swallowed exceptions
-- Logging in catch blocks
-- No generic catch(Exception) unless justified
-- Proper HTTP status codes (if API)
-- CancellationToken supported
-- No sensitive info exposed
+### Tools & Data Models
+- **review_tools.py**: ReviewIssue data model with severity levels (CRITICAL, HIGH, MEDIUM, LOW, INFO)
+- **scoring_tools.py**: PrScore model with weighted metrics and recommendations
+- **validation_tools.py**: ValidationResult model for structural compliance
+- **formatting_tools.py**: Code quality metrics (line length, indentation, naming, duplication)
 
-If missing:
+### Input Data Sources
+```
+PR Details (GitHub API):
+  - Title, description, author
+  - Additions/deletions, changed files count
+  - Test presence, code coverage
 
-Provide corrected full implementation.
+File Analysis:
+  - C# syntax validation
+  - Pattern detection (hardcoding, error handling, architecture)
+  - Metrics: LOC, complexity, duplication
 
----
-
-# 🏗 PHASE 4 — ARCHITECTURE REVIEW
-
-Evaluate:
-
-- Separation of concerns
-- Controller thinness
-- Service layer correctness
-- Repository usage
-- Dependency injection
-- Interface usage
-- SOLID adherence
-- Tight coupling
-- Static misuse
-- Code duplication
-- Single Responsibility violations
-
-Provide architectural recommendations clearly.
+Code Quality Metrics:
+  - Line length distribution
+  - Indentation consistency (%)
+  - Naming convention violations
+  - Duplicate code blocks
+```
 
 ---
 
-# 🚀 PHASE 5 — PERFORMANCE REVIEW
+## 🎯 8-PHASE REVIEW PROCESS WITH DATA ARTIFACTS
 
-Analyze:
+### Phase 0: PR Metadata Validation
 
-- Algorithm complexity
-- Database query efficiency
-- Memory allocation
-- Object instantiation
-- Async correctness
-- Parallelization opportunity
-- Caching opportunity
-- Avoid large object materialization
+**Data Inputs:**
+- Title, description length and content
+- Author, review history
+- File count and modification stats
 
-If optimization possible:
+**Checks:**
+✓ Title follows conventional commits: `<type>(<scope>): <description>`
+  - Valid types: feat, fix, refactor, test, docs, perf, ci, chore, build
+  - Max title length: 72 characters (Git standard)
+  
+✓ Description completeness: 
+  - Includes "What" section (changes made)
+  - Includes "Why" section (rationale/business value)
+  - Includes "Testing" section (how to validate)
+  - Marks breaking changes if applicable
 
-Provide improved version.
+✓ PR size assessment:
+  - Small PRs (< 200 lines): ✅ Preferred
+  - Medium PRs (200-500 lines): ⚠️ Monitor
+  - Large PRs (> 500 lines): ❌ Consider splitting
 
----
-
-# 🔐 PHASE 6 — SECURITY REVIEW
-
-Check:
-
-- SQL injection safety
-- Hardcoded secrets
-- Input validation
-- Authorization checks
-- Over-posting risks
-- Sensitive data exposure
-- File upload validation
-- Model binding safety
-
-Highlight OWASP risks if found.
-
----
-
-# 🧪 PHASE 7 — UNIT TEST GENERATION (MANDATORY)
-
-For every public method modified or improved:
-
-Generate:
-
-- xUnit test class
-- Moq for dependencies
-- Positive test case
-- Negative test case
-- Edge case
-- Exception case
-- FluentAssertions usage
-- Clear Arrange / Act / Assert pattern
-
-Example structure required:
-
-```csharp
-public class OrderServiceTests
+**Output Metrics:**
+```json
 {
-    private readonly Mock<IOrderRepository> _repositoryMock;
-    private readonly OrderService _service;
+  "title_valid": true,
+  "description_completeness": 85,
+  "breaking_changes_noted": false,
+  "size_assessment": "MEDIUM"
+}
+```
 
-    public OrderServiceTests()
+---
+
+### Phase 1: Architecture & Design Review
+
+**Data Inputs:**
+- File structure, class hierarchies
+- Dependency injection patterns
+- SOLID principle compliance indicators
+
+**Severity Guidelines:**
+- **CRITICAL** (Blockers):
+  * No dependency injection (tight coupling)
+  * Direct class instantiation of dependencies
+  * Circular dependencies detected
+  * Missing interface abstractions for testability
+
+- **HIGH** (Must Address):
+  * Static dependencies (static fields, methods)
+  * Service locator pattern instead of DI
+  * God classes (> 500 lines)
+  * Duplicate functionality across files
+
+- **MEDIUM** (Should Fix):
+  * Inconsistent abstraction levels
+  * Mixed concerns in single class
+  * No separation between layers
+  * Unused imports or dead code
+
+**Output Metrics:**
+```json
+{
+  "architecture_score": 8.0,
+  "dip_violations": 0,
+  "srp_violations": 1,
+  "service_locator_usage": false,
+  "interface_coverage": 92
+}
+```
+
+---
+
+### Phase 2: Naming Conventions & Code Clarity
+
+**C# Naming Standards:**
+
+✓ **Classes/Interfaces/Structs**: PascalCase
+  ```csharp
+  public class MovieController { }
+  public interface IMovieService { }
+  ```
+
+✓ **Methods**: PascalCase
+  ```csharp
+  public void GetMoviesByGenre() { }
+  public async Task<List<Movie>> FetchMoviesAsync() { }
+  ```
+
+✓ **Private Fields**: camelCase with underscore
+  ```csharp
+  private string _movieTitle;
+  private IMovieRepository _repository;
+  ```
+
+✓ **Local Variables**: camelCase
+  ```csharp
+  var movieCount = 10;
+  string genreFilter = "Action";
+  ```
+
+✓ **Constants**: UPPER_SNAKE_CASE or PascalCase
+  ```csharp
+  private const int MaxRetries = 3;
+  private const string DefaultGenre = "ALL";
+  ```
+
+✓ **Async Methods**: Suffix with "Async"
+  ```csharp
+  public async Task<Movie> GetMovieAsync(int id)
+  ```
+
+**Severity Guidelines:**
+- **HIGH**: Inconsistent casing patterns in same file
+- **MEDIUM**: Generic names (data, value, temp, item)
+- **LOW**: Missing async suffix on async methods
+
+**Output Metrics:**
+```json
+{
+  "naming_violations": 3,
+  "quality_score": 87,
+  "violations": [
+    { "type": "private field", "name": "MovieTitle", "suggestion": "_movieTitle" }
+  ]
+}
+```
+
+---
+
+### Phase 3: Error Handling & Resilience
+
+**Required Patterns:**
+
+✓ **Guard Clauses** (fail early):
+```csharp
+public Movie GetMovie(int id)
+{
+    if (id <= 0)
+        throw new ArgumentException("ID must be positive", nameof(id));
+    
+    var movie = _repository.Find(id);
+    if (movie == null)
+        throw new NotFoundException($"Movie {id} not found");
+    
+    return movie;
+}
+```
+
+✓ **Null Checks** before operations:
+```csharp
+var movies = filter?.GetMovies();
+if (movies?.Any() ?? false)
+{
+    // Process movies
+}
+```
+
+✓ **Try-Catch Pattern** with logging:
+```csharp
+try
+{
+    return await _movieService.FetchMoviesAsync();
+}
+catch (HttpRequestException ex)
+{
+    _logger.LogError(ex, "Failed to fetch movies from external API");
+    throw;  // NOT empty catch!
+}
+```
+
+✓ **Async Error Handling**:
+```csharp
+public async Task<IEnumerable<Movie>> GetMoviesAsync()
+{
+    try
     {
-        _repositoryMock = new Mock<IOrderRepository>();
-        _service = new OrderService(_repositoryMock.Object);
+        return await _repository.GetMoviesAsync();
     }
-
-    [Fact]
-    public async Task GetOrderAsync_ShouldReturnOrder_WhenOrderExists()
+    catch (SqlException ex) when (ex.Number == -2)
     {
-        // Arrange
-
-        // Act
-
-        // Assert
+        _logger.LogWarning("Connection timeout, using cache");
+        return await GetCachedMoviesAsync();
     }
 }
+```
 
-Tests must:
+**Severity Guidelines:**
+- **CRITICAL**: Empty catch blocks, swallowed exceptions
+- **HIGH**: Direct array/list access without bounds check
+- **MEDIUM**: Missing null checks on nullable types
+- **LOW**: No logging in catch blocks
 
-Not call real database
+**Output Metrics:**
+```json
+{
+  "error_handling_score": 7.5,
+  "issues": {
+    "empty_catch_blocks": 0,
+    "missing_null_checks": 2,
+    "swallowed_exceptions": 0,
+    "logging_gaps": 1
+  }
+}
+```
 
-Not call external APIs
+---
 
-Be production-quality
+### Phase 4: Code Quality & Maintainability
 
-Cover failure paths
+**Quality Checks:**
 
-📊 PHASE 8 — FINAL PR SUMMARY
+✓ **Magic Numbers**: Extract to named constants
+```csharp
+// ❌ BAD
+if (movies.Count > 100) { }
 
-At the end, provide:
+// ✅ GOOD
+private const int MaxMoviesPerPage = 100;
+if (movies.Count > MaxMoviesPerPage) { }
+```
 
-🧠 Architectural Observations
+✓ **Method Size**: Keep methods < 50 lines (single responsibility)
+```
+// ❌ BAD: 150+ lines
+public void ProcessMovies() { /* everything in one method */ }
 
-Strengths
+// ✅ GOOD: Decomposed
+public void ProcessMovies() 
+{
+    var movies = FetchMovies();
+    ValidateMovies(movies);
+    SaveMovies(movies);
+}
+```
 
-Weaknesses
+✓ **Dead Code Removal**: No commented-out code blocks
+```csharp
+// ❌ BAD
+// var oldLogic = repository.GetAll();.ToList();
+// films = oldLogic.Filter(x => x.Active);
 
-Refactoring suggestions
+// ✅ GOOD: Use git history for old code
+var activeMovies = repository.GetActive();
+```
 
-🚨 Risk Level
+✓ **Cyclomatic Complexity**: Keep < 10 paths per method
+```
+- 1-10: ✅ Simple
+- 11-20: ⚠️ Moderate complexity
+- 21+: ❌ Too complex, refactor needed
+```
 
-Low / Medium / High / Critical
+**Output Metrics:**
+```json
+{
+  "quality_score": 82,
+  "issues": {
+    "magic_numbers": 5,
+    "dead_code_lines": 12,
+    "oversized_methods": 2,
+    "high_complexity_methods": 1
+  }
+}
+```
 
-📈 Quality Score
+---
 
-Score from 1–10 based on:
+### Phase 5: Security Review
 
-Naming clarity
+**Critical Security Checks:**
 
-Logic quality
+✓ **No Hardcoded Secrets**:
+```csharp
+// ❌ CRITICAL BLOCKER
+string apiKey = "sk-12345abcde";
+string connectionString = "Server=prod.db;Password=SecurePass123";
 
-Performance
+// ✅ CORRECT
+string apiKey = Environment.GetEnvironmentVariable("API_KEY");
+var connectionString = configuration.GetConnectionString("DefaultConnection");
+```
 
-Security
+✓ **OWASP Top 10 Compliance**:
+1. **SQL Injection**: Use parameterized queries
+```csharp
+// ❌ BAD
+var sql = $"SELECT * FROM Movies WHERE Title = '{title}'";
 
-Testability
+// ✅ GOOD (Entity Framework)
+var movies = _context.Movies.Where(m => m.Title == title).ToList();
 
-Maintainability
+// ✅ GOOD (Raw SQL)
+var movies = _context.Movies.FromSqlInterpolated($"SELECT * FROM Movies WHERE Title = {title}");
+```
 
-🏁 Merge Recommendation
+2. **XSS Prevention**: Encode output
+```csharp
+// MVC: Html.Encode() or @Html.Raw() only when safe
+// API: Return JSON (naturally escaped)
+```
 
-One of:
+3. **Authorization Checks**:
+```csharp
+[Authorize(Roles = "Admin")]
+public IActionResult DeleteMovie(int id) { }
 
-✅ Approve
+// Check user belongs to resource
+if (movie.OwnerId != User.GetId())
+    return Forbid();
+```
 
-⚠️ Approve with Minor Changes
+4. **Input Validation**:
+```csharp
+[ApiController]
+[Route("api/[controller]")]
+public class MoviesController : ControllerBase
+{
+    [HttpPost]
+    public async Task<Movie> CreateMovie([FromBody] CreateMovieRequest request)
+    {
+        // ModelState automatically validated in ASP.NET Core
+        // Fluent Validation for complex rules
+    }
+}
+```
 
-❌ Changes Required
+5. **Secrets Management**:
+```csharp
+// ❌ NO hardcoding in code
+// ❌ NO secrets in appsettings.json
+// ✅ Use Azure Key Vault, AWS Secrets Manager, or environment variables
+var secret = configuration.GetRequiredSection("KeyVault:ApiKey").Value;
+```
 
-🚫 Reject
+**Severity Guidelines:**
+- **CRITICAL**: Hardcoded passwords, API keys, credentials
+- **HIGH**: SQL injection vulnerabilities, missing input validation
+- **MEDIUM**: Missing authorization checks, hardcoded URLs
+- **LOW**: Missing HTTPS enforcement, weak cipher suites
 
-🔴 Blockers
+**Output Metrics:**
+```json
+{
+  "security_score": 9.0,
+  "issues": {
+    "hardcoded_secrets": 0,
+    "sql_injection_risk": 0,
+    "missing_auth_checks": 0,
+    "input_validation_gaps": 1
+  },
+  "owasp_compliant": true
+}
+```
 
-List must-fix items.
+---
 
-🟡 Improvements
+### Phase 6: Performance & Optimization
 
-Recommended but not mandatory.
+**Performance Analysis:**
 
-🟢 Nice-to-Haves
+✓ **Database Query Efficiency**:
+```csharp
+// ❌ N+1 Query Problem
+foreach (var movie in movies)
+{
+    var actors = _repository.GetActorsByMovieId(movie.Id);  // N queries!
+}
 
-Optional enhancements.
+// ✅ Efficient - Single query with includes
+var moviesWithActors = _context.Movies
+    .Include(m => m.Actors)
+    .ToList();
+```
 
-🔒 STRICT RULES
+✓ **Async/Await Correctness**:
+```csharp
+// ❌ BAD: Blocking call
+public List<Movie> GetMovies()
+{
+    return _httpClient.GetAsync("/api/movies").Result.Content.ReadAsAsync<List<Movie>>().Result;
+}
 
-Do NOT give generic advice.
+// ✅ GOOD: Async all the way
+public async Task<List<Movie>> GetMoviesAsync()
+{
+    var response = await _httpClient.GetAsync("/api/movies");
+    return await response.Content.ReadAsAsync<List<Movie>>();
+}
+```
 
-Always cite file and line number.
+✓ **Caching Strategies**:
+```csharp
+// In-memory cache for frequently accessed data
+var cachedMovies = await _cache.GetOrCreateAsync("all_movies", async entry =>
+{
+    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+    return await _repository.GetAllMoviesAsync();
+});
+```
 
-Always provide corrected code.
+✓ **Collection Initialization**:
+```csharp
+// ❌ BAD: Unnecessary allocations
+var movies = GetMovies().ToList();  // Extra copy
+return movies.Where(m => m.Active).ToList();
 
-Always provide unit tests.
+// ✅ GOOD: Lazy evaluation
+return GetMovies()
+    .Where(m => m.Active)  // Deferred
+    .ToList();  // Single materialization
+```
 
-Always provide full improved method.
+**Severity Guidelines:**
+- **HIGH**: N+1 queries, blocking async calls
+- **MEDIUM**: Missing IndexedProperty, orphaned objects in memory
+- **LOW**: Inefficient LINQ chains, unnecessary allocations
 
-Be precise.
+**Output Metrics:**
+```json
+{
+  "performance_score": 8.0,
+  "issues": {
+    "n_plus_one_queries": 0,
+    "blocking_async_calls": 1,
+    "missing_indexes": 0,
+    "inefficient_linq": 2
+  }
+}
+```
 
-Be enterprise-level strict.
+---
 
-Assume production-critical system.
+### Phase 7: Unit Testing & Coverage
 
-OUTPUT FORMAT REQUIREMENT
+**Required Test Structure:**
 
-Structure the response exactly in this order:
+✓ **Test Project Naming**: `[ProjectName].Tests` or `[ProjectName].UnitTests`
 
-Naming Review
+✓ **Test Class Naming**: `[ClassBeingTested]Tests` or `[MethodBeingTested]Tests`
 
-Logic Optimization
+✓ **Test Method Naming**: `[MethodName]_[Condition]_[ExpectedResult]`
+```csharp
+public class MovieServiceTests
+{
+    [Fact]
+    public async Task GetMovieById_WithValidId_ReturnsMovie()
+    {
+        // Arrange
+        var movieId = 1;
+        var expectedMovie = new Movie { Id = 1, Title = "Action Hero" };
+        _repositoryMock.Setup(r => r.GetByIdAsync(movieId))
+            .ReturnsAsync(expectedMovie);
+        
+        // Act
+        var result = await _movieService.GetMovieByIdAsync(movieId);
+        
+        // Assert
+        Assert.Equal(expectedMovie.Id, result.Id);
+        Assert.Equal(expectedMovie.Title, result.Title);
+    }
+}
+```
 
-Error Handling Improvements
+✓ **Test Coverage Requirements**:
+- Public methods: 100% Coverage
+- Private methods: Not tested directly
+- Controllers: 80%+ coverage
+- Services: 85%+ coverage
+- Utilities: 100% coverage
 
-Architecture Observations
+✓ **Arrange-Act-Assert (AAA) Pattern**:
+```csharp
+[Fact]
+public void Filter_WithGenreAction_ReturnsActionMovies()
+{
+    // ARRANGE
+    var filter = new MovieFilter { Genre = "Action" };
+    var movies = new List<Movie>
+    {
+        new() { Title = "Die Hard", Genre = "Action" },
+        new() { Title = "Romance Story", Genre = "Romance" }
+    };
+    
+    // ACT
+    var result = movies.Where(m => m.Genre == filter.Genre).ToList();
+    
+    // ASSERT
+    Assert.Single(result);
+    Assert.Equal("Die Hard", result.First().Title);
+}
+```
 
-Performance Notes
+✓ **Test Cases Required for Each Method**:
+1. **Positive Case**: Valid input, expected output
+2. **Negative Case**: Invalid input, appropriate error
+3. **Edge Cases**: Boundary conditions (null, empty, max/min values)
+4. **Exception Cases**: External failures (network timeout, DB unavailable)
 
-Security Review
+✓ **Example: Complete Test Suite**:
+```csharp
+public class MovieFilterTests
+{
+    private readonly MovieFilter _filter;
+    
+    public MovieFilterTests() => _filter = new MovieFilter();
+    
+    // POSITIVE CASE
+    [Fact]
+    public void Filter_WithValidGenre_ReturnsMatches()
+    {
+        var movies = new[] { new Movie { Genre = "Action" } };
+        var result = _filter.Execute(movies, "Action");
+        Assert.Single(result);
+    }
+    
+    // NEGATIVE CASE
+    [Fact]
+    public void Filter_WithNullMovies_ThrowsArgumentNull()
+    {
+        Assert.Throws<ArgumentNullException>(() => _filter.Execute(null, "Action"));
+    }
+    
+    // EDGE CASE
+    [Fact]
+    public void Filter_WithEmptyGenre_ReturnsAll()
+    {
+        var movies = new[] { new Movie { Genre = "Action" }, new Movie { Genre = "Drama" } };
+        var result = _filter.Execute(movies, "");
+        Assert.Equal(2, result.Count);
+    }
+    
+    // EXCEPTION CASE
+    [Fact]
+    public async Task GetMoviesAsync_WithNetworkTimeout_RetriesThreeTimes()
+    {
+        _httpClientMock.Setup(c => c.GetAsync(It.IsAny<string>()))
+            .ThrowsAsync(new HttpRequestException("Timeout"));
+        
+        var ex = await Assert.ThrowsAsync<HttpRequestException>(
+            () => _movieService.GetMoviesAsync()
+        );
+        
+        _httpClientMock.Verify(c => c.GetAsync(It.IsAny<string>()), Times.Exactly(3));
+    }
+}
+```
 
-Unit Tests
+✓ **Framework**: xUnit with Moq
+```csharp
+// Arrange
+var mockRepository = new Mock<IMovieRepository>();
+mockRepository.Setup(r => r.GetByIdAsync(1))
+    .ReturnsAsync(new Movie { Id = 1, Title = "Test" });
 
-Final Summary & Merge Decision
+// Act
+var service = new MovieService(mockRepository.Object);
+var movie = await service.GetMovieByIdAsync(1);
 
-This prompt ensures:
+// Assert
+Assert.NotNull(movie);
+mockRepository.Verify(r => r.GetByIdAsync(1), Times.Once);
+```
 
-Variable renaming
+**Severity Guidelines:**
+- **CRITICAL**: No tests at all, public methods untested
+- **HIGH**: < 50% coverage, missing edge case tests
+- **MEDIUM**: < 80% coverage, inconsistent test naming
+- **LOW**: No exception case tests, missing comments
 
-Logic optimization
+**Output Metrics:**
+```json
+{
+  "test_coverage": 82,
+  "issues": {
+    "untested_public_methods": 0,
+    "missing_edge_cases": 2,
+    "missing_exception_tests": 1,
+    "test_framework_compliance": 95
+  }
+}
+```
 
-Real PR-level feedback
+---
 
-Production-quality improvements
+### Phase 8: Final Assessment & Merge Decision
 
-Enterprise-grade governance
+**Decision Matrix:**
 
-Test coverage enforcement
+| Condition | Recommendation | Notes |
+|-----------|----------------|-------|
+| Blockers present | ❌ CHANGES REQUIRED | Cannot merge until critical issues resolved |
+| Critical security issues | ❌ CHANGES REQUIRED | Security review mandatory |
+| < 50% test coverage | ⚠️ REVIEW REQUIRED | Requires manual stakeholder review |
+| Score 6-7 | ⚠️ REVIEW REQUIRED | Senior dev to assess tradeoffs |
+| Score 7-8 | ✅ APPROVE_WITH_MINOR_CHANGES | Can merge, improvements in next PR |
+| Score 8+ | ✅ APPROVE | Ready to merge |
+
+**Final Output Report:**
+```json
+{
+  "overall_score": 7.8,
+  "recommendation": "APPROVE_WITH_MINOR_CHANGES",
+  "summary": {
+    "strengths": [
+      "Good architectural separation",
+      "Comprehensive error handling",
+      "Strong test coverage (85%)"
+    ],
+    "improvements_needed": [
+      "Extract 3 magic numbers to named constants",
+      "Add logging to 1 catch block",
+      "Resolve 2 naming convention violations"
+    ],
+    "blockers": [],
+    "effort_estimate": "1-2 hours for improvements"
+  },
+  "merge_checklist": [
+    "✅ PR title follows conventional commits",
+    "✅ Description explains what/why/testing",
+    "⚠️ Address minor code quality improvements",
+    "✅ All necessary tests present",
+    "✅ No security vulnerabilities detected"
+  ]
+}
+```
+
+---
+
+## 📋 AUTOMATED DATA COLLECTION
+
+This framework integrates with automated tools that collect meaningful data:
+
+### ReviewIssue Data Model
+```python
+@dataclass
+class ReviewIssue:
+    file: str
+    line_number: Optional[int]
+    severity: SeverityLevel  # CRITICAL, HIGH, MEDIUM, LOW, INFO
+    category: str
+    description: str
+    suggestion: str
+    code_snippet: Optional[str] = None
+```
+
+### PrScore Data Model
+```python
+@dataclass
+class PrScore:
+    overall_score: float  # 0-10
+    max_score: float
+    recommendation: RecommendationType
+    metrics: List[ScoreMetric]
+    blockers: List[str]
+    improvements: List[str]
+    nice_to_haves: List[str]
+```
+
+---
+
+## 🚀 USAGE GUIDELINES
+
+1. **Automated Mode**: Run mcp_orchestrator.py on every PR
+   - Collects all data automatically
+   - Posts comprehensive review comment
+   - Generates actionable metrics
+
+2. **Manual Mode**: Use as checklist for code review
+   - Follow Phase 0-8 sequentially
+   - Cross-reference metrics
+   - Provide specific file/line citations
+
+3. **Customization**: Adjust severity thresholds for team standards
+   - Modify scoring weights based on priorities
+   - Add/remove rules for specific tech stack
+   - Integrate with CI/CD pipeline
+
+---
+
+**Version**: 2.0 (Data-Driven Framework)
+**Last Updated**: March 1, 2026
+**Compliance**: Enterprise C# Standards, SOLID Principles, OWASP Top 10
