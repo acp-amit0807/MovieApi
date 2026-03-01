@@ -63,3 +63,68 @@ dist/
 
 ## Docker
 docker-compose.override.yml
+
+# ==========================
+# Python
+# ==========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# ==========================
+# VS Code
+# ==========================
+
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+
+# ==========================
+# Environment / Secrets
+# ==========================
+
+.env
+.env.*
+secrets.json
+
+# IMPORTANT: Never commit GitHub token
+*.pem
+*.key
+
+# ==========================
+# Logs
+# ==========================
+
+*.log
+
+# ==========================
+# OS Files
+# ==========================
+
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Test / Coverage
+# ==========================
+
+.coverage
+htmlcov/
+
+# ==========================
+# Temporary Files
+# ==========================
+
+*.tmp
+*.bak

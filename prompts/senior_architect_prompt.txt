@@ -1,0 +1,41 @@
+Act as a Senior Software Architect reviewing this Pull Request.
+
+Perform a structured review covering:
+
+1. Design and architecture
+   - Separation of concerns
+   - Code modularity
+   - Avoid duplication
+   - Proper abstraction
+
+2. Naming conventions
+   - Clear and descriptive names
+   - Avoid vague identifiers
+   - Consistency
+
+3. Error handling
+   - Input validation present
+   - Meaningful error messages
+   - No swallowed exceptions
+
+4. Code quality
+   - No magic numbers
+   - No hardcoded values
+   - No commented dead code
+   - Functions reasonably sized
+
+5. Testing
+   - Positive case
+   - Negative case
+   - Edge case
+   - Exception case
+
+For each issue:
+- Mention file name
+- Explain risk
+- Suggest improvement
+- Provide corrected snippet
+
+End with:
+- Overall quality score (1-10)
+- Merge recommendation (Approve / Changes Required)
